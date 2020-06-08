@@ -1,0 +1,52 @@
+*{
+    outline: none;
+}
+
+    
+    .OutLine{
+        margin: 0  5px 10px 5px;
+        border-radius: 14px;
+    }
+
+    .OutLineStatic{
+        border: 3px solid #FBC81D;
+    }
+
+    .OutLineClicked{
+        border: 3px solid #510073;
+    }
+    
+    .btStyle{
+        width: 20vw;
+        min-width: 120px;
+        border-radius: 10px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btStyleStatic{
+        border: 3px solid #510073;
+        background-color: #FFF;
+
+    }
+
+    .btStyleClicked{
+        border: 3px solid #FFF;
+        background-color: #510073;
+    }
+
+    .text{
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 12px;
+        font-weight: bold;
+        margin: 5px;
+    }
+
+    .textStatic{
+        color: #510073;
+    }
+    
+    .textClicked{
+        color: #FFF;
+    }
