@@ -45,3 +45,13 @@
     box-sizing: border-box;
     flex-wrap: wrap;
 }
+
+.inputsLocal{
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    z-index: 1000;
+    align-items: flex-end;
+    justify-content: flex-end;
+    
+}

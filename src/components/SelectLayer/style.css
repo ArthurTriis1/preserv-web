@@ -1,11 +1,15 @@
-*{
-    outline: none;
-}
+    *{
+        outline: none;
+    }
 
     
     .OutLine{
         margin: 0  5px 10px 5px;
         border-radius: 14px;
+    }
+    .OutLine:hover{
+        cursor: pointer;
+        opacity: 0.8;
     }
 
     .OutLineStatic{
@@ -49,4 +53,18 @@
     
     .textClicked{
         color: #FFF;
+    }
+
+    .popup{
+        max-width: 250px;
+    }
+
+    .popupText{
+        color: #510073;
+        margin: 5px 0px;
+    }
+
+    .popupLink{
+        color: #7d00b3;
+        margin: 5px 0px;
     }

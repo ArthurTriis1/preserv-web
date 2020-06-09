@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Map, TileLayer, Marker} from 'react-leaflet'
+import { Map, TileLayer, Marker, Popup} from 'react-leaflet'
 import { FiArrowLeft } from "react-icons/fi";
 import logo from '../../assets/logo.png';
 import pointer from '../../assets/pointer.png';
 import shadow from '../../assets/shadow.png'
 import apiGov from '../../services/apiGov';
 import SelectLayer from '../../components/SelectLayer';
+import SelectBairros from '../../components/SelectBairros';
 import { useParams, Link } from 'react-router-dom';
 import L from 'leaflet';
 
@@ -79,6 +80,11 @@ const MapPage = () => {
                 icon={pointerIcon}
                 onClick={() =>{}}
                 >
+                <Popup className="popup">
+                    <h3 className="popupText">{marker.nome_oficial}</h3>
+                    <Link><h4 className="popupLink">Detalhes</h4></Link>
+                </Popup>
+                
             </Marker>)
         ))
     }
@@ -94,11 +100,21 @@ const MapPage = () => {
 
             <div className="containerMap">
                 <section className="containerOptions">
-                    <SelectLayer name="Preservativos" call={(data) => {setPreserv(data.show)}}    />
-                    <SelectLayer name="Teste de IST"         call={(data) => {setTeste(data.show)}}      />
-                    <SelectLayer name="Prevenção de urgência"         call={(data) => {setPrevencao(data.show)}}  />
-                    <SelectLayer name="Tratamento de IST"         call={(data) => {setTratamento(data.show)}} />      
+                    <SelectLayer name="Preservativos"           call={(data) => {setPreserv(data.show)}}    />
+                    <SelectLayer name="Teste de IST"            call={(data) => {setTeste(data.show)}}      />
+                    <SelectLayer name="Prevenção de urgência"   call={(data) => {setPrevencao(data.show)}}  />
+                    <SelectLayer name="Tratamento de IST"       call={(data) => {setTratamento(data.show)}} />      
                 </section>
+
+                 <div className={`inputsLocal`}>
+                 
+                    <SelectBairros 
+                        bairros={bairros} 
+                        stateChange={(callback => setDropped(callback))}
+                        callGo={(data) => setPosition(data)}
+                    />
+                </div>
+
 
                 <Map 
                     center={position} 
@@ -123,7 +139,7 @@ const MapPage = () => {
                     {tratamento && plotMap(layerTratamento)}
                 </Map>
 
-
+                
             </div>
         </>
     )
