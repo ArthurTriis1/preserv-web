@@ -5,14 +5,10 @@ import './style.css';
 
 export default function SelectBairro(props) {
 
-    const {bairros} = props;
-    const {stateChange} = props;
+    const { bairros, stateChange, callGo }  = props;
+
 
     const [getBairros, setBairros] = useState(bairros);
-
-    const {callGo} = props
-
-    
 
     const [clicked, setClicked] = useState(false);
 

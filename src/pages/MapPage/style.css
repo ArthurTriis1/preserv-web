@@ -1,38 +1,3 @@
-.headerMap {
-    box-sizing: border-box;
-    width: 100%;
-    height: 50px;
-    padding: 10px;
-    background-color: #7D008B;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.returnButtonOut{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #FBC81D;
-    border-radius: 22px;
-}
-
-.returnButtonIn{
-    width: 25px;
-    height: 25px;
-    border-radius: 20px;
-    color: #510073;
-    background-color: #FFF;
-    border: 3px solid#510073;  
-}
-
-.logoHeader{
-    height: 120%;
-    width: auto;
-    align-self: center;
-}
-
 .containerOptions{
     display: flex;
     flex-direction: row;

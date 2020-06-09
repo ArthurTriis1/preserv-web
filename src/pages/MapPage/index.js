@@ -7,12 +7,17 @@ import shadow from '../../assets/shadow.png'
 import apiGov from '../../services/apiGov';
 import SelectLayer from '../../components/SelectLayer';
 import SelectBairros from '../../components/SelectBairros';
-import { useParams, Link } from 'react-router-dom';
+import HeaderPreserv from '../../components/HeaderPreserv';
+
+import { useHistory, Link } from 'react-router-dom';
 import L from 'leaflet';
 
 import './style.css'
 
 const MapPage = () => {
+
+    const history = useHistory();
+
     const [position, setPosition] = useState([-8.063169, -34.871139]);
     const [zoom, setZoom] = useState(15);
 
@@ -78,25 +83,25 @@ const MapPage = () => {
                 position={[Number(marker.latitude), Number(marker.longitude)]}
                 key={String(marker._id)}
                 icon={pointerIcon}
-                onClick={() =>{}}
+                onClick={() =>{
+                    history.push({ 
+                        pathname: "/details", state: { marker } 
+                    })
+                }}
                 >
-                <Popup className="popup">
+                {/* <Popup className="popup">
                     <h3 className="popupText">{marker.nome_oficial}</h3>
-                    <Link><h4 className="popupLink">Detalhes</h4></Link>
-                </Popup>
-                
+                    <Link to={{ pathname: "/details", state: { marker } }}>
+                        <h4 className="popupLink">Detalhes</h4>
+                    </Link>
+                </Popup> */}
             </Marker>)
         ))
     }
 
     return (
         <>
-            <header className="headerMap">
-                <Link className="returnButtonOut" to="/">
-                    <FiArrowLeft className="returnButtonIn"/>
-                </Link>
-                <img src={logo} alt="Preserv" className="logoHeader"/>
-            </header>
+            <HeaderPreserv/>
 
             <div className="containerMap">
                 <section className="containerOptions">
