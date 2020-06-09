@@ -8,7 +8,7 @@
 
     .informationsContainer{
         margin: 30px;
-        width: 90%;
+        max-width: 90%;
     }
 
     .groupInformation{
@@ -41,7 +41,7 @@
 @media (min-width: 600px){
     .informationsContainer{
         margin: 30px;
-        width: 60%;
+        max-width: 60%;
     }
 }
 
