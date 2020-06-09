@@ -1,13 +1,16 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './style.css';
 
 
 const SelectLayer = props => {
 
-    const [show, setShow] = useState(true)
+    const {call, name, initialShow} = props;
 
+    const [show, setShow] = useState(initialShow || true)
 
-    const {call, name} = props;
+    useEffect(() => {
+        setShow(initialShow)
+    }, [initialShow])
 
     function invertShow(){
         setShow(!show)

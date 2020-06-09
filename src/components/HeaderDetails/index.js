@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { FiX } from "react-icons/fi";
 import logo from '../../assets/logo.png';
 import information from '../../assets/information.png'

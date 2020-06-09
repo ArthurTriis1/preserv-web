@@ -21,7 +21,7 @@ export default function SelectBairro(props) {
     }
 
     async function Go(bairroName){
-        bairroName = bairroName  == "Alto Santa Terezinha " ? "Alto Santa Teresinha" : bairroName
+        bairroName = bairroName  === "Alto Santa Terezinha " ? "Alto Santa Teresinha" : bairroName
         if(callGo){
             let data = await apiGeolocation.get(`${bairroName}+recife%20brasil&format=json&limit=1`);
             data = data.data[0]

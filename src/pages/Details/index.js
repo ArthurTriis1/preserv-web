@@ -28,10 +28,6 @@ export default function LocationDetails() {
         {icon:service, att: "tipo_servico"},
         {icon: interrogation, att: "como_usar"}, 
     ]
- 
-    function navigateBack(){
-        //navigation.goBack();
-    } 
 
     return (
         <div className={"container"}> 
@@ -48,6 +44,7 @@ export default function LocationDetails() {
                                 </div>
                             )
                         }
+                        return null;
                     })
                 }
             </div> 

@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Map, TileLayer, Marker, Popup} from 'react-leaflet'
-import { FiArrowLeft } from "react-icons/fi";
-import logo from '../../assets/logo.png';
+import React, { useState, useEffect, useRef } from 'react';
+import { Map, TileLayer, Marker} from 'react-leaflet'
 import pointer from '../../assets/pointer.png';
 import shadow from '../../assets/shadow.png'
 import apiGov from '../../services/apiGov';
@@ -9,7 +7,7 @@ import SelectLayer from '../../components/SelectLayer';
 import SelectBairros from '../../components/SelectBairros';
 import HeaderPreserv from '../../components/HeaderPreserv';
 
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import L from 'leaflet';
 
 import './style.css'
@@ -19,7 +17,9 @@ const MapPage = () => {
     const history = useHistory();
 
     const [position, setPosition] = useState([-8.063169, -34.871139]);
-    const [zoom, setZoom] = useState(15);
+    const zoom = 15;
+
+    const mapEl = useRef(null)
 
     const pointerIcon = new L.Icon({
         iconUrl: pointer,
@@ -31,8 +31,8 @@ const MapPage = () => {
     })
 
     //#region Estados
-    const [loading, setLoading] = useState(true);
-    const [dropped, setDropped] = useState(false);
+    // const [loading, setLoading] = useState(true);
+    // const [dropped, setDropped] = useState(false);
     const [bairros, setBairros] = useState([]);
 
     const [layerPreservativos, setLayerPreservativos] = useState([]);
@@ -47,6 +47,7 @@ const MapPage = () => {
     const [layerTratamento, setLayerTratamento] = useState([]);
     const [tratamento, setTratamento] = useState(false)
     //#endregion
+
 
     useEffect(()=>{
         apiGov.get('bairros')
@@ -77,13 +78,38 @@ const MapPage = () => {
         })
     },[]);
 
-    function plotMap(layer){
+    useEffect(() => {
+        let preservState = localStorage.getItem("preservState");
+        preservState = JSON.parse(preservState)
+        if(preservState){
+            setPosition(preservState.position);
+            setTeste(preservState.teste);
+            setTratamento(preservState.tratamento)
+            setPreserv(preservState.preserv)
+            setPrevencao(preservState.prevencao)
+        }
+    }, [])
+
+    const saveMapState = (e) =>{
+        const state = {
+            position: mapEl.current.props.center,
+            teste: teste || false,
+            preserv : preserv || false,
+            prevencao: prevencao || false,
+            tratamento: tratamento || false
+        };
+        localStorage.setItem("preservState", JSON.stringify(state))
+    }
+
+
+    const plotMap = (layer) =>{
         return (layer.map(marker => (
             <Marker
                 position={[Number(marker.latitude), Number(marker.longitude)]}
                 key={String(marker._id)}
                 icon={pointerIcon}
-                onClick={() =>{
+                onClick={(e) => {
+                    saveMapState(e)
                     history.push({ 
                         pathname: "/details", state: { marker } 
                     })
@@ -105,23 +131,25 @@ const MapPage = () => {
 
             <div className="containerMap">
                 <section className="containerOptions">
-                    <SelectLayer name="Preservativos"           call={(data) => {setPreserv(data.show)}}    />
-                    <SelectLayer name="Teste de IST"            call={(data) => {setTeste(data.show)}}      />
-                    <SelectLayer name="Prevenção de urgência"   call={(data) => {setPrevencao(data.show)}}  />
-                    <SelectLayer name="Tratamento de IST"       call={(data) => {setTratamento(data.show)}} />      
+                    <SelectLayer name="Preservativos"          call={(data) => {setPreserv(data.show)}}   initialShow={!preserv} />
+                    <SelectLayer name="Teste de DSTs"            call={(data) => {setTeste(data.show)}} initialShow={!teste}/>
+                    <SelectLayer name="Prevenção de urgência"   call={(data) => {setPrevencao(data.show)}}  initialShow={!prevencao}/>
+                    <SelectLayer name="Tratamento de DSTs"       call={(data) => {setTratamento(data.show)}} initialShow={!tratamento}/>      
                 </section>
 
                  <div className={`inputsLocal`}>
                  
                     <SelectBairros 
                         bairros={bairros} 
-                        stateChange={(callback => setDropped(callback))}
+                        // stateChange={(callback => setDropped(callback))}
                         callGo={(data) => setPosition(data)}
                     />
                 </div>
 
 
-                <Map 
+                <Map
+                    ref={mapEl}
+                    animate={false}
                     center={position} 
                     zoom={zoom} 
                     style={{ height: "100vh", width: "100%"}}
