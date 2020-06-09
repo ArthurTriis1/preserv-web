@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Map, TileLayer, Marker, Popup } from 'react-leaflet'
+import { Map, TileLayer, Marker} from 'react-leaflet'
 import { FiArrowLeft } from "react-icons/fi";
 import logo from '../../assets/logo.png';
 import pointer from '../../assets/pointer.png';
@@ -43,28 +43,28 @@ const MapPage = () => {
     //#endregion
 
     useEffect(()=>{
-        apiGov.get('datastore_search_sql?sql=SELECT%20distinct%20bairro%20from%20"e21b7420-de0f-4130-ac90-c6d5a08f84a2"order%20by%20bairro')
+        apiGov.get('bairros')
             .then((resp) => {
                 const results = resp.data.result.records.map((r) => {return r['bairro']});
                 setBairros(results);
                 
             })
-        apiGov.get('datastore_search_sql?sql=SELECT%20*%20from%20"e21b7420-de0f-4130-ac90-c6d5a08f84a2"')
+        apiGov.get('preservativos')
             .then((resp) => {
                 const results = resp.data.result.records;
                 setLayerPreservativos(results);
             })
-        apiGov.get('datastore_search?resource_id=7f3a2046-1372-4e6f-b269-802bf17ef832&limit=5')
+        apiGov.get('testes')
             .then((resp) => {
                 const results = resp.data.result.records;
                 setLayerTeste(results);
             })
-        apiGov.get('datastore_search?resource_id=9aa8298b-8ffb-4801-a7d5-461d44f3ee24&limit=5')
+        apiGov.get('prevencao')
             .then((resp) => {
                 const results = resp.data.result.records;
                 setLayerPrevencao(results);
             })
-        apiGov.get('datastore_search?resource_id=7f3a2046-1372-4e6f-b269-802bf17ef832&limit=5')
+        apiGov.get('tratamento')
         .then((resp) => {
             const results = resp.data.result.records;
             setLayerTratamento(results);
@@ -79,7 +79,6 @@ const MapPage = () => {
                 icon={pointerIcon}
                 onClick={() =>{}}
                 >
-                
             </Marker>)
         ))
     }
@@ -96,9 +95,9 @@ const MapPage = () => {
             <div className="containerMap">
                 <section className="containerOptions">
                     <SelectLayer name="Preservativos" call={(data) => {setPreserv(data.show)}}    />
-                    <SelectLayer name="Testagem"         call={(data) => {setTeste(data.show)}}      />
-                    <SelectLayer name="Prevenção"         call={(data) => {setPrevencao(data.show)}}  />
-                    <SelectLayer name="Tratamento"         call={(data) => {setTratamento(data.show)}} />      
+                    <SelectLayer name="Teste de IST"         call={(data) => {setTeste(data.show)}}      />
+                    <SelectLayer name="Prevenção de urgência"         call={(data) => {setPrevencao(data.show)}}  />
+                    <SelectLayer name="Tratamento de IST"         call={(data) => {setTratamento(data.show)}} />      
                 </section>
 
                 <Map 
