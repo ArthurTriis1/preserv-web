@@ -14,7 +14,7 @@ const Home = () => {
             <div className="home">
                 <div className="buttons">
                     <div className="btOut ">
-                        <button onClick={() => {history.push('/map')}} className="btIn btHome">IR</button>
+                        <button onClick={() => {history.push('/map')}} className="btIn btHome">ENTRAR</button>
                     </div>
                     <div className="btOut">
                         <button onClick={() => {history.push('/map')}} className="btIn">SOBRE</button>

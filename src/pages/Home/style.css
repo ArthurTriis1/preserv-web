@@ -6,7 +6,7 @@ button {
     overflow: visible;
 
     background: transparent;
-
+    cursor: pointer;
     /* inherit font & color from ancestor */
     color: inherit;
     font: inherit;

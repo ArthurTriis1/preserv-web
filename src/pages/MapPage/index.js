@@ -132,9 +132,9 @@ const MapPage = () => {
             <div className="containerMap">
                 <section className="containerOptions">
                     <SelectLayer name="Preservativos"          call={(data) => {setPreserv(data.show)}}   initialShow={!preserv} />
-                    <SelectLayer name="Teste de DSTs"            call={(data) => {setTeste(data.show)}} initialShow={!teste}/>
+                    <SelectLayer name="Teste de DST"            call={(data) => {setTeste(data.show)}} initialShow={!teste}/>
                     <SelectLayer name="Prevenção de urgência"   call={(data) => {setPrevencao(data.show)}}  initialShow={!prevencao}/>
-                    <SelectLayer name="Tratamento de DSTs"       call={(data) => {setTratamento(data.show)}} initialShow={!tratamento}/>      
+                    <SelectLayer name="Tratamento de DST"       call={(data) => {setTratamento(data.show)}} initialShow={!tratamento}/>      
                 </section>
 
                  <div className={`inputsLocal`}>

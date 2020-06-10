@@ -19,6 +19,7 @@ export default function LocationDetails() {
         ...location.state.marker, 
         endereço: location.state.marker.bairro+ ", " + location.state.marker["endereço"]
     }
+    
 
     const infos = [
         {icon: name , att: "nome_oficial"},
