@@ -6,6 +6,7 @@ import apiGov from '../../services/apiGov';
 import SelectLayer from '../../components/SelectLayer';
 import SelectBairros from '../../components/SelectBairros';
 import HeaderPreserv from '../../components/HeaderPreserv';
+import GeolocationButton from '../../components/GeolocationButton';
 
 import { useHistory } from 'react-router-dom';
 import L from 'leaflet';
@@ -13,14 +14,11 @@ import L from 'leaflet';
 import './style.css'
 
 const MapPage = () => {
-
+    
     const history = useHistory();
-
-    const [position, setPosition] = useState([-8.063169, -34.871139]);
-    const zoom = 15;
-
+    
     const mapEl = useRef(null)
-
+    
     const pointerIcon = new L.Icon({
         iconUrl: pointer,
         shadowUrl: shadow,
@@ -29,10 +27,12 @@ const MapPage = () => {
         popupAnchor: [1, -34],
         shadowSize: [41, 41]
     })
-
+    
+    const [viewport, setViewport] = useState({
+        center: [-8.063169, -34.871139],
+        zoom: 15,
+      })
     //#region Estados
-    // const [loading, setLoading] = useState(true);
-    // const [dropped, setDropped] = useState(false);
     const [bairros, setBairros] = useState([]);
 
     const [layerPreservativos, setLayerPreservativos] = useState([]);
@@ -47,6 +47,7 @@ const MapPage = () => {
     const [layerTratamento, setLayerTratamento] = useState([]);
     const [tratamento, setTratamento] = useState(false)
     //#endregion
+
 
 
     useEffect(()=>{
@@ -81,18 +82,37 @@ const MapPage = () => {
     useEffect(() => {
         let preservState = localStorage.getItem("preservState");
         preservState = JSON.parse(preservState)
+
         if(preservState){
-            setPosition(preservState.position);
             setTeste(preservState.teste);
             setTratamento(preservState.tratamento)
             setPreserv(preservState.preserv)
             setPrevencao(preservState.prevencao)
+            setViewport(preservState.viewport)
+        }else  {
+            getPosition()
         }
     }, [])
 
-    const saveMapState = (e) =>{
+
+    function getPosition() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(pos =>{
+                setViewport({
+                    center: [ pos.coords.latitude, pos.coords.longitude],
+                    zoom: 18  
+                });
+            });
+        }
+    }
+
+    const saveMapState = () =>{
+
         const state = {
-            position: mapEl.current.props.center,
+            viewport: {
+                center: mapEl.current.viewport.center,
+                zoom: mapEl.current.viewport.zoom
+            },
             teste: teste || false,
             preserv : preserv || false,
             prevencao: prevencao || false,
@@ -108,11 +128,11 @@ const MapPage = () => {
                 position={[Number(marker.latitude), Number(marker.longitude)]}
                 key={String(marker._id)}
                 icon={pointerIcon}
-                onClick={(e) => {
-                    saveMapState(e)
+                onClick={() => {
+                    saveMapState();
                     history.push({ 
                         pathname: "/details", state: { marker } 
-                    })
+                    });
                 }}
                 >
                 {/* <Popup className="popup">
@@ -127,10 +147,10 @@ const MapPage = () => {
 
     return (
         <>
-            <HeaderPreserv/>
+            <HeaderPreserv />
 
-            <div className="containerMap">
-                <section className="containerOptions">
+            <div className="containerMap" >
+                <section className="containerOptions" >
                     <SelectLayer name="Preservativos"          call={(data) => {setPreserv(data.show)}}   initialShow={!preserv} />
                     <SelectLayer name="Teste de DST"            call={(data) => {setTeste(data.show)}} initialShow={!teste}/>
                     <SelectLayer name="Prevenção de urgência"   call={(data) => {setPrevencao(data.show)}}  initialShow={!prevencao}/>
@@ -138,20 +158,17 @@ const MapPage = () => {
                 </section>
 
                  <div className={`inputsLocal`}>
-                 
+                    <GeolocationButton geoClick={getPosition}/>
                     <SelectBairros 
                         bairros={bairros} 
-                        // stateChange={(callback => setDropped(callback))}
-                        callGo={(data) => setPosition(data)}
+                        callGo={(data) => setViewport({center: data, zoom: 16})}
                     />
                 </div>
 
-
                 <Map
                     ref={mapEl}
-                    animate={false}
-                    center={position} 
-                    zoom={zoom} 
+                    onViewportChanged={(e) => setViewport(e)}
+                    viewport={viewport}
                     style={{ height: "100vh", width: "100%"}}
                     >
                     <TileLayer
@@ -171,8 +188,7 @@ const MapPage = () => {
                     {/* Layer de Tratamento */}
                     {tratamento && plotMap(layerTratamento)}
                 </Map>
-
-                
+               
             </div>
         </>
     )
