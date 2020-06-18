@@ -75,7 +75,8 @@ const About = () => {
                 method="post"
                 data-netlify="true"
                 data-netlify-honeypot="bot-field"
-                className="containerFeedback">
+                className="containerFeedback"
+                onSubmit={handleSubmit}>
                 
                 <input type="hidden" name="form-name" value="contact" />
                 

@@ -8,13 +8,13 @@
 .headerAbout {
     box-sizing: border-box;
     width: 100%;
-    height: 47vh;
     padding: 10px;
     background-color: #7D008B;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    padding-bottom: 100px;
 }
 
 
