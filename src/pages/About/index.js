@@ -42,7 +42,9 @@ const About = () => {
                     </a>
                 </div>
             </div>
-            <form name="contact" method="POST" data-netlify="true" netlify className="containerFeedback">
+            <form name="contact" method="post" data-netlify="true" data-netlify-honeypot="bot-field" className="containerFeedback">
+                <input type="hidden" name="form-name" value="contact" />
+                
                 <h2>DÚVIDAS OU SUGESTÕES?</h2>
   
                 <input type="email" name="email" placeholder="SEU EMAIL"/>
