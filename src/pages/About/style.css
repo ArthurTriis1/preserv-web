@@ -1,0 +1,146 @@
+.containerAbout{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.headerAbout {
+    box-sizing: border-box;
+    width: 100%;
+    height: 47vh;
+    padding: 10px;
+    background-color: #7D008B;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+
+.logoHeaderAbout{
+    height: 20vh;
+    margin: 10px 20px 0px 20px;
+}
+
+.returnButtonAbout{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.infoHeaderPreserv{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 900;
+    line-height: 16px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    margin: 20px 20px;
+}
+
+
+.containerInformations{
+    box-sizing: border-box;
+    width: 90%;
+    background-color: #FFF;
+    border-radius: 10px;
+    margin-top: -70px;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.containerInformations h5{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 900;
+    line-height: 14px;
+    text-align: center;
+
+    color: #510073;
+}
+
+.containerInformations hr{
+    height: 2px;
+    margin-top: 10px;
+    margin-bottom: 40px;
+    width: 100%;
+}
+
+.containerInformations h4, .containerInformations h2{
+    color: #510073;
+    margin: 2px;
+}
+
+.containerInformations h2{
+    margin-bottom: 20px;
+}
+
+.containerInformations a{
+    margin: 0 5px;
+    font-size: 40px;
+    opacity: 0.7;
+}
+
+.containerInformations a:hover{
+    font-size: 40px;
+    opacity: 1;
+}
+
+.containerFeedback{
+    background-color: #7D008B;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.containerFeedback h2{
+    color: #FFF;
+   
+}
+
+.containerFeedback input, .containerFeedback textarea{
+    width: 80%;
+    min-height: 33px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-family: Roboto;
+    font-weight: 900;
+    font-size: medium;
+    color: #510073;
+    resize: none;
+}
+
+.containerFeedback textarea{
+    height: 80px;
+    margin-bottom: 0;
+}
+
+.containerFeedback button{
+    margin: 20px 0;
+    width: 150px;
+    background: #FBC81D;
+    border-radius: 9px;
+    color: #510073;
+    padding: 10px;
+    font-weight: 900;
+}
+
+
+
+@media (min-width: 600px) 
+{
+  .containerInformations
+   {
+    width: 60%;
+   }
+
+   .containerFeedback input, .containerFeedback textarea{
+       width: 60%;
+   }
+}

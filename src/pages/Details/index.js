@@ -32,7 +32,7 @@ export default function LocationDetails() {
 
     return (
         <div className={"container"}> 
-            <HeaderDetails/>
+            <HeaderDetails isInformation={true}/>
 
             <div className={"informationsContainer"}>
                 {

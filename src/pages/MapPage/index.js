@@ -5,13 +5,13 @@ import shadow from '../../assets/shadow.png'
 import apiGov from '../../services/apiGov';
 import SelectLayer from '../../components/SelectLayer';
 import SelectBairros from '../../components/SelectBairros';
-import HeaderPreserv from '../../components/HeaderPreserv';
 import GeolocationButton from '../../components/GeolocationButton';
 
 import { useHistory } from 'react-router-dom';
 import L from 'leaflet';
 
 import './style.css'
+import HeaderDetails from '../../components/HeaderDetails';
 
 const MapPage = () => {
     
@@ -147,7 +147,7 @@ const MapPage = () => {
 
     return (
         <>
-            <HeaderPreserv />
+            <HeaderDetails />
 
             <div className="containerMap" >
                 <section className="containerOptions" >

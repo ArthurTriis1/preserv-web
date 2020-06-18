@@ -17,7 +17,7 @@ const Home = () => {
                         <button onClick={() => {history.push('/map')}} className="btIn btHome">ENTRAR</button>
                     </div>
                     <div className="btOut">
-                        <button onClick={() => {history.push('/map')}} className="btIn">SOBRE</button>
+                        <button onClick={() => {history.push('/about')}} className="btIn">SOBRE</button>
                     </div>
                     <div className="btOut">
                         <button onClick={() => {history.push('/map')}} className="btIn">AJUDA</button>
