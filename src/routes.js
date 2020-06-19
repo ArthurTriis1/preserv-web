@@ -5,6 +5,7 @@ import Home from '../src/pages/Home';
 import MapPage from '../src/pages/MapPage';
 import Details from '../src/pages/Details';
 import About from '../src/pages/About';
+import Help from '../src/pages/Help';
 
 
 const Routes = () => {
@@ -15,6 +16,7 @@ const Routes = () => {
                 <Route path='/Map' exact={true} component={MapPage} />
                 <Route path='/Details' exact={true} component={Details} />
                 <Route path='/About' exact={true} component={About} />
+                <Route path='/Help' exact={true} component={Help} />
             </Switch>
         </BrowserRouter>
     )

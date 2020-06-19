@@ -1,0 +1,22 @@
+.infoInline{
+    background-color: #FBC81D;
+    color: #510073;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 15px;
+    border-radius: 8px;
+    border: 3px solid #510073;
+}
+
+
+.infoOutline{
+    border: 3px solid #FBC81D;
+    border-radius: 12px;
+    width: 100%;
+}
+
+.infoInline h4{
+    margin: 0;
+    font-weight: 900;
+    text-transform: uppercase;
+}

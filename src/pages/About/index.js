@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FiArrowLeft } from "react-icons/fi";
-import { AiFillGithub, AiFillInstagram, AiFillBehanceSquare } from 'react-icons/ai'
 import logo from '../../assets/logo.png';
+import { AiFillGithub, AiFillInstagram, AiFillBehanceSquare } from 'react-icons/ai'
 import './style.css'
+import apiGov from '../../services/apiGov';
 
 const About = () => {
     const history = useHistory();
@@ -16,22 +17,19 @@ const About = () => {
         setForm({ ...form, [e.target.name]: e.target.value }) 
     };
 
-    const encode = (data) => {
-        return Object.keys(data)
-            .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-            .join("&");
-      }
 
     const handleSubmit = e => {
-        fetch("/", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: encode({ "form-name": "contact", form })
-        })
-          .then(() => alert("Success!"))
-          .catch(error => alert(error));
-  
         e.preventDefault();
+        apiGov.post('sendmail', form)
+        .then(resp => {
+            console.log(resp)
+            alert("success")
+        })
+        .catch(err => {
+            console.log(err)
+            alert("error")
+        })
+  
       };
     
     return (
@@ -71,18 +69,12 @@ const About = () => {
             </div>
             
             <form 
-                name="contact"
-                method="post"
-                data-netlify="true"
-                data-netlify-honeypot="bot-field"
                 className="containerFeedback"
                 onSubmit={handleSubmit}>
                 
-                <input type="hidden" name="form-name" value="contact" />
-                
                 <h2>DÚVIDAS OU SUGESTÕES?</h2>
   
-                <input type="email" name="email" placeholder="SEU EMAIL" onChange={formChange}/>
+                <input type="email" name="name" placeholder="SEU EMAIL" onChange={formChange}/>
 
                 <textarea type="text" name="message" placeholder="TEXTO" onChange={formChange}/>
 
