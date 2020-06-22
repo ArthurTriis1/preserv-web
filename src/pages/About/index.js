@@ -5,13 +5,16 @@ import logo from '../../assets/logo.png';
 import { AiFillGithub, AiFillInstagram, AiFillBehanceSquare } from 'react-icons/ai'
 import './style.css'
 import apiGov from '../../services/apiGov';
+import Modal from '../../components/Modal';
 
 const About = () => {
     const history = useHistory();
     const [form, setForm] = useState({
-        email: '',
+        name: '',
         message: ''
     })
+    const [showError, setShowError] = useState(true);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const formChange = e => {
         setForm({ ...form, [e.target.name]: e.target.value }) 
@@ -22,18 +25,33 @@ const About = () => {
         e.preventDefault();
         apiGov.post('sendmail', form)
         .then(resp => {
-            console.log(resp)
-            alert("success")
+            setShowSuccess(true);
         })
         .catch(err => {
-            console.log(err)
-            alert("error")
+            setShowError(true);
         })
   
       };
     
     return (
-        <div className="containerAbout">
+        <>
+            { 
+                showError   && 
+                    <Modal 
+                        title="ERRO"
+                        text="DESCULPE, A MENSAGEM NÃO PÔDE SER ENVIADA! VOCÊ PODE ENTRAR EM CONTATO PELAS NOSSAS REDES SOCIAIS." 
+                        close={() => setShowError(false)}
+                    /> 
+            }
+            { 
+                showSuccess && 
+                    <Modal 
+                        title="SUCESSO"
+                        text="MENSAGEM ENVIADA COM SUCESSO! OBRIGADO!" 
+                        close={() => setShowSuccess(false)}
+                    /> 
+            }
+            <div className="containerAbout">
             <header className="headerAbout">
                 <button className="returnButtonOut returnButtonAbout"  onClick={() => history.goBack()}>
                     <FiArrowLeft className="returnButtonIn"/>
@@ -74,13 +92,14 @@ const About = () => {
                 
                 <h2>DÚVIDAS OU SUGESTÕES?</h2>
   
-                <input type="email" name="name" placeholder="SEU EMAIL" onChange={formChange}/>
+                <input type="email" name="name" placeholder="SEU EMAIL" required onChange={formChange}/>
 
-                <textarea type="text" name="message" placeholder="TEXTO" onChange={formChange}/>
+                <textarea type="text" name="message" placeholder="TEXTO" required onChange={formChange}/>
 
                 <button type="submit">ENVIAR</button>
             </form>
         </div>
+        </>
     )
 }
 

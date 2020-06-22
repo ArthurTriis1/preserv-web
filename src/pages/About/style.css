@@ -112,7 +112,7 @@
     font-family: Roboto;
     font-weight: 900;
     font-size: medium;
-    color: #510073;
+    color: #510073 !important;
     resize: none;
 }
 
