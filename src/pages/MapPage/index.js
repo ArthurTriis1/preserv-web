@@ -80,7 +80,7 @@ const MapPage = () => {
     },[]);
 
     useEffect(() => {
-        let preservState = localStorage.getItem("preservState");
+        let preservState = sessionStorage.getItem("preservState");
         preservState = JSON.parse(preservState)
 
         if(preservState){
@@ -118,7 +118,7 @@ const MapPage = () => {
             prevencao: prevencao || false,
             tratamento: tratamento || false
         };
-        localStorage.setItem("preservState", JSON.stringify(state))
+        sessionStorage.setItem("preservState", JSON.stringify(state))
     }
 
 

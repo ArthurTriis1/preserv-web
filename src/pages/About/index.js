@@ -13,7 +13,7 @@ const About = () => {
         name: '',
         message: ''
     })
-    const [showError, setShowError] = useState(true);
+    const [showError, setShowError] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
 
     const formChange = e => {
