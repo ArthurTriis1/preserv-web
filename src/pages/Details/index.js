@@ -14,12 +14,14 @@ import  Coment  from '../../components/Coment';
 import './styles.css'
 import InputComent from '../../components/InputComent';
 import apiPreserv from '../../services/apiPreserv';
+import Modal from '../../components/Modal';
 
 export default function LocationDetails() {
 
     const location = useLocation();
     
     const [coments, setComents] = useState([]);
+    const [showSubmitComment, setShowSubmitComment] = useState(false);
 
     const marker = {
         ...location.state.marker, 
@@ -27,12 +29,27 @@ export default function LocationDetails() {
     }
 
     useEffect(() => {
+        getComments();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    const submitComent = (e) => {
+        apiPreserv.post('/new_comment', {
+            ...e,
+            place: location.state.marker._id
+        })
+        .then(({ data }) => { 
+            getComments();
+            setShowSubmitComment(true);
+        })
+    }
+
+    const getComments = () => {
         apiPreserv.get('/comments/place/' + location.state.marker._id)
             .then(({ data }) => { 
                 setComents(data.comments)
             })
-    }, [])
-    
+    }
 
     const infos = [
         {icon: name , att: "nome_oficial"},
@@ -44,45 +61,54 @@ export default function LocationDetails() {
     ]
 
     return (
-        <div className={"container"}> 
-            <HeaderDetails isInformation={true}/>
+        <>
+            { 
+                showSubmitComment  && 
+                <Modal 
+                    title="OBRIGADO!"
+                    text="SEU COMENTARIO FOI ENVIADO COM SUCESSO!" 
+                    close={() => setShowSubmitComment(false)}
+                /> 
+            }
+            <div className={"container"}> 
+                <HeaderDetails isInformation={true}/>
 
-            <div className={"informationsContainer"}>
-                {
-                    infos.map(info => {
-                        if(String(marker[info.att]).length > 0){
-                            return (
-                                <div key={String(info.att)} className={"groupInformation"}>
-                                    <img alt="Logo" src={info.icon} className={"caracterLogo"}/>
-                                    <p className={"caracterText"}>{marker[info.att]}</p>
-                                </div>
-                            )
-                        }
-                        return null;
-                    })
-                }
-            </div> 
-                
-            <section className="comentsSpace">
-                <div>
-                    <InputComent/>
+                <div className={"informationsContainer"}>
                     {
-                        !!coments.length && 
-                        <h2>Comentarios:</h2>
+                        infos.map(info => {
+                            if(String(marker[info.att]).length > 0){
+                                return (
+                                    <div key={String(info.att)} className={"groupInformation"}>
+                                        <img alt="Logo" src={info.icon} className={"caracterLogo"}/>
+                                        <p className={"caracterText"}>{marker[info.att]}</p>
+                                    </div>
+                                )
+                            }
+                            return null;
+                        })
                     }
+                </div> 
                     
+                <section className="comentsSpace">
+                    <div>
+                        <InputComent submit={submitComent}/>
+                        {
+                            !!coments.length && 
+                            <h2>Comentarios:</h2>
+                        }
+                        {
+                            coments.map(coment => (
+                                <Coment 
+                                    key={coment.id}
+                                    username={coment.username} 
+                                    coment={coment.comment}
+                                />
+                            ))
+                        }
+                    </div>
 
-                    {
-                        coments.map(coment => (
-                            <Coment 
-                                username={coment.username} 
-                                coment={coment.comment}
-                            />
-                        ))
-                    }
-                </div>
-
-            </section>
-        </div>
+                </section>
+            </div>
+        </>
     );
 }
