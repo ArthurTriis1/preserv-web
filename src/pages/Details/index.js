@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import HeaderDetails from '../../components/HeaderDetails'
 
@@ -9,16 +9,29 @@ import interrogation from '../../assets/interrogation.png'
 import service from '../../assets/service.png'
 import time from '../../assets/time.png'
 
+import  Coment  from '../../components/Coment';
+
 import './styles.css'
+import InputComent from '../../components/InputComent';
+import apiPreserv from '../../services/apiPreserv';
 
 export default function LocationDetails() {
 
     const location = useLocation();
- 
+    
+    const [coments, setComents] = useState([]);
+
     const marker = {
         ...location.state.marker, 
         endereço: location.state.marker.bairro+ ", " + location.state.marker["endereço"]
     }
+
+    useEffect(() => {
+        apiPreserv.get('/comments/place/' + location.state.marker._id)
+            .then(({ data }) => { 
+                setComents(data.comments)
+            })
+    }, [])
     
 
     const infos = [
@@ -49,6 +62,27 @@ export default function LocationDetails() {
                     })
                 }
             </div> 
+                
+            <section className="comentsSpace">
+                <div>
+                    <InputComent/>
+                    {
+                        !!coments.length && 
+                        <h2>Comentarios:</h2>
+                    }
+                    
+
+                    {
+                        coments.map(coment => (
+                            <Coment 
+                                username={coment.username} 
+                                coment={coment.comment}
+                            />
+                        ))
+                    }
+                </div>
+
+            </section>
         </div>
     );
 }

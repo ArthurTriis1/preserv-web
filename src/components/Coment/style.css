@@ -1,0 +1,15 @@
+.comentContainer{
+    width: 100%;
+    color: #FFF;
+    border-bottom: 1px solid #FFF;
+}
+
+.comentContainer h4{
+    margin-bottom: 5px;
+    font-size: 28px;
+}
+
+.comentContainer p{
+    margin-top: 5px;
+    font-size: 20px;
+}

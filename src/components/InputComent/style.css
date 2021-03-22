@@ -1,0 +1,40 @@
+
+.formComents{
+    width: 100%;
+}
+
+.containerComents {
+    display: flex;
+    flex-direction: column;
+}
+
+.containerComents h2{
+    color: #FFF;
+}
+
+.containerComents input, .containerComents textarea{
+    min-height: 33px;
+    margin-bottom: 10px;
+    text-align: left;
+    font-family: Roboto;
+    font-weight: 900;
+    font-size: medium;
+    color: #510073 !important;
+    resize: none;
+    border: 3px solid #510073 !important;
+}
+
+.containerComents textarea{
+    height: 50px;
+    margin-bottom: 0;
+}
+
+.containerComents button{
+    margin: 20px 0;
+    width: 150px;
+    background: #FBC81D;
+    border-radius: 9px;
+    color: #510073;
+    padding: 10px;
+    font-weight: 900;
+}
