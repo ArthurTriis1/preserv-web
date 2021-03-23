@@ -2,14 +2,39 @@
     width: 100%;
     color: #FFF;
     border-bottom: 1px solid #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.comentContainer div{
+    flex: 1;
+    color: #FFF;
+    border-bottom: 1px solid #FFF;
 }
 
 .comentContainer h4{
     margin-bottom: 5px;
-    font-size: 28px;
+    font-size: 32px;
 }
 
 .comentContainer p{
     margin-top: 5px;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.comentContainer span{
     font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.comentContainer svg{
+    transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.comentContainer svg:hover{
+    opacity: 80%;
+    cursor: pointer;
+    transform: scale(1.3);
 }
