@@ -84,6 +84,24 @@ const About = () => {
                         <AiFillInstagram/>
                     </a>
                 </div>
+                <h4>Victor Mouzinho</h4>
+                <div className="containerRedes">
+                    <a href="https://github.com/vicmouz">
+                        <AiFillGithub />    
+                    </a>
+                    <a href="https://www.instagram.com/vicmouz/">
+                        <AiFillInstagram/>
+                    </a>
+                </div>
+                <h4>Giovanni Barreto</h4>
+                <div className="containerRedes">
+                    <a href="https://github.com/Giovannisb">
+                        <AiFillGithub />
+                    </a>
+                    <a href="https://www.instagram.com/giovannisb.py/">
+                        <AiFillInstagram/>
+                    </a>
+                </div>
             </div>
             
             <form 
