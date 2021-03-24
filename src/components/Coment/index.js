@@ -69,12 +69,19 @@ const Coment = ({ comment, likeClick }) => {
     setLikedComments(likedComments);
   };
 
+  const formatDate = (date) => {
+    return new Date(date).toLocaleString().split(",")[0];
+  }
+
   return (
     <div className="comentContainer">
       <div>
         <h4>{thisComment.username}</h4>
         <p>{thisComment.comment}</p>
-        <span>{thisComment.likes} curtidas</span>
+        <span>
+          { `${thisComment.likes} curtidas -
+          ${ formatDate(thisComment.createdAt)}` }
+        </span>
       </div>
       {liked ? (
         <AiFillLike size={30} onClick={() => clickLikeHandle(!liked)} />
