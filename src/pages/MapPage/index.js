@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Map, TileLayer, Marker} from 'react-leaflet'
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { Map, TileLayer, Marker, FeatureGroup} from 'react-leaflet'
 import pointer from '../../assets/pointer.png';
 import shadow from '../../assets/shadow.png'
 import apiGov from '../../services/apiGov';
@@ -8,7 +8,7 @@ import SelectBairros from '../../components/SelectBairros';
 import GeolocationButton from '../../components/GeolocationButton';
 
 import { useHistory } from 'react-router-dom';
-import L from 'leaflet';
+import L, { } from 'leaflet';
 
 import './style.css'
 import HeaderDetails from '../../components/HeaderDetails';
@@ -17,7 +17,12 @@ const MapPage = () => {
     
     const history = useHistory();
     
-    const mapEl = useRef(null)
+    const mapEl = useRef(null);
+
+    const preservRef = useRef(null);
+    const testRef = useRef(null);
+    const prevRef = useRef(null);
+    const tratRef = useRef(null);
     
     const pointerIcon = new L.Icon({
         iconUrl: pointer,
@@ -94,6 +99,30 @@ const MapPage = () => {
         }
     }, [])
 
+    useEffect(() => {
+        fitLayerBound(preservRef);
+    }, [preserv])
+
+    useEffect(() => {
+        fitLayerBound(testRef);
+    }, [teste])
+
+    useEffect(() => {
+        fitLayerBound(prevRef);
+    }, [prevencao])
+
+    useEffect(() => {
+        fitLayerBound(tratRef);
+    }, [tratamento])
+
+    const fitLayerBound = (layerRef) => {
+
+        const bounds = layerRef.current?.leafletElement?.getBounds();
+
+        if(bounds?.isValid()) {
+            mapEl.current.leafletElement.fitBounds(bounds);
+        }
+    }
 
     function getPosition() {
         if (navigator.geolocation) {
@@ -106,8 +135,7 @@ const MapPage = () => {
         }
     }
 
-    const saveMapState = () =>{
-
+    const saveMapState = useCallback(() =>{
         const state = {
             viewport: {
                 center: mapEl.current.viewport.center,
@@ -119,31 +147,35 @@ const MapPage = () => {
             tratamento: tratamento || false
         };
         sessionStorage.setItem("preservState", JSON.stringify(state))
-    }
+    }, [preserv, prevencao, teste, tratamento])
 
+    const plotMap = useCallback(
+        (layer) =>{
+            return (
+                layer.map(marker => (
+                <Marker
+                    position={[Number(marker.latitude), Number(marker.longitude)]}
+                    key={String(marker._id)}
+                    icon={pointerIcon}
+                    onClick={() => {
+                        saveMapState();
+                        history.push({ 
+                            pathname: "/details", state: { marker } 
+                        });
+                    }}
+                    >
+                    {/* <Popup className="popup">
+                        <h3 className="popupText">{marker.nome_oficial}</h3>
+                        <Link to={{ pathname: "/details", state: { marker } }}>
+                            <h4 className="popupLink">Detalhes</h4>
+                        </Link>
+                    </Popup> */}
+                </Marker>) )
+                )
+           
+        },[history, pointerIcon, saveMapState],
+      );
 
-    const plotMap = (layer) =>{
-        return (layer.map(marker => (
-            <Marker
-                position={[Number(marker.latitude), Number(marker.longitude)]}
-                key={String(marker._id)}
-                icon={pointerIcon}
-                onClick={() => {
-                    saveMapState();
-                    history.push({ 
-                        pathname: "/details", state: { marker } 
-                    });
-                }}
-                >
-                {/* <Popup className="popup">
-                    <h3 className="popupText">{marker.nome_oficial}</h3>
-                    <Link to={{ pathname: "/details", state: { marker } }}>
-                        <h4 className="popupLink">Detalhes</h4>
-                    </Link>
-                </Popup> */}
-            </Marker>)
-        ))
-    }
 
     return (
         <>
@@ -177,16 +209,52 @@ const MapPage = () => {
                     />
 
                     {/* Layer de Preservativos */}
-                    {preserv && plotMap(layerPreservativos)}
+                    {preserv && 
+                        (
+                            <FeatureGroup ref={preservRef}>
+                                {
+                                    plotMap(layerPreservativos, preservRef)
+                                }
+                            </FeatureGroup>
+                        )
+                    }
 
                     {/* Layer de Testes */}
-                    {teste && plotMap(layerTeste)}
+
+                    {teste && 
+                        (
+                            <FeatureGroup ref={testRef}>
+                                {
+                                    plotMap(layerTeste, testRef)
+                                }
+                            </FeatureGroup>
+                        
+                        )
+                    }
 
                     {/* Layer de Prevencao */}
-                    {prevencao && plotMap(layerPrevencao)}
+                    {prevencao && 
+                        (
+                            <FeatureGroup ref={prevRef}>
+                                {
+                                    plotMap(layerPrevencao, prevRef)
+                                }
+                            </FeatureGroup>
+                        
+                        )
+                    }
 
                     {/* Layer de Tratamento */}
-                    {tratamento && plotMap(layerTratamento)}
+                    {tratamento && 
+                        (
+                            <FeatureGroup ref={tratRef}>
+                                {
+                                    plotMap(layerTratamento, tratRef)
+                                }
+                            </FeatureGroup>
+                        
+                        )
+                    }
                 </Map>
                
             </div>
