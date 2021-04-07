@@ -21,6 +21,7 @@ export default function LocationDetails() {
 
   const [coments, setComents] = useState([]);
   const [showSubmitComment, setShowSubmitComment] = useState(false);
+  const [showErrorComment, setShowErrorComment] = useState(false);
 
   const marker = {
     ...location.state.marker,
@@ -42,6 +43,9 @@ export default function LocationDetails() {
       .then(({ data }) => {
         getComments();
         setShowSubmitComment(true);
+      }).catch(({error}) => {
+        console.log(error)
+        setShowErrorComment(true);
       });
   };
 
@@ -74,6 +78,13 @@ export default function LocationDetails() {
           text="SEU COMENTARIO FOI ENVIADO COM SUCESSO!"
           close={() => setShowSubmitComment(false)}
         />
+      )}
+      {showErrorComment && (
+        <Modal
+        title="ERRO!"
+        text="SEU COMENTARIO POSSUI PALAVRAS IMPRÓPRIAS, POR FAVOR REVISE-O!"
+        close={() => setShowErrorComment(false)}
+      />
       )}
       <div className={"container"}>
         <HeaderDetails isInformation={true} />

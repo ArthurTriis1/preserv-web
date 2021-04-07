@@ -60,7 +60,6 @@ const MapPage = () => {
             .then((resp) => {
                 const results = resp.data.result.records.map((r) => {return r['bairro']});
                 setBairros(results);
-                
             })
         apiGov.get('preservativos')
             .then((resp) => {
@@ -177,16 +176,47 @@ const MapPage = () => {
       );
 
 
+    function chooseFilter(option) {
+        switch (option) {
+            case "preserv":
+                setPreserv(true);
+                setTeste(false);
+                setPrevencao(false);
+                setTratamento(false);
+                break;
+            case "teste":
+                setPreserv(false);
+                setTeste(true);
+                setPrevencao(false);
+                setTratamento(false);
+                break;
+            case "prevencao":
+                setPreserv(false);
+                setTeste(false);
+                setPrevencao(true);
+                setTratamento(false);
+                break;
+            case "tratamento":
+                setPreserv(false);
+                setTeste(false);
+                setPrevencao(false);
+                setTratamento(true);
+                break;
+            default:
+                break;
+        }
+    }
+
     return (
         <>
             <HeaderDetails />
 
             <div className="containerMap" >
                 <section className="containerOptions" >
-                    <SelectLayer name="Preservativos"          call={(data) => {setPreserv(data.show); saveMapState()}}   initialShow={!preserv} />
-                    <SelectLayer name="Teste de DST"            call={(data) => {setTeste(data.show); saveMapState()}} initialShow={!teste}/>
-                    <SelectLayer name="Prevenção de urgência"   call={(data) => {setPrevencao(data.show); saveMapState()}}  initialShow={!prevencao}/>
-                    <SelectLayer name="Tratamento de DST"       call={(data) => {setTratamento(data.show); saveMapState()}} initialShow={!tratamento}/>      
+                    <SelectLayer name="Preservativos"          call={(data) => {setPreserv(data.show); saveMapState(); chooseFilter("preserv")}}   initialShow={!preserv} />
+                    <SelectLayer name="Teste de DST"            call={(data) => {setTeste(data.show); saveMapState();chooseFilter("teste")}} initialShow={!teste}/>
+                    <SelectLayer name="Prevenção de urgência"   call={(data) => {setPrevencao(data.show); saveMapState();chooseFilter("prevencao")}}  initialShow={!prevencao}/>
+                    <SelectLayer name="Tratamento de DST"       call={(data) => {setTratamento(data.show); saveMapState();chooseFilter("tratamento")}} initialShow={!tratamento}/>      
                 </section>
 
                  <div className={`inputsLocal`}>
